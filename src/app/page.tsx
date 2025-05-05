@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { Advocate } from "../types/advocate";
+import AdvocateCard from "../features/advocates/AdvocateCard";
+import AdvocateSearch from "../features/advocates/AdvocateSearch";
+import Link from "next/link";
 
 export default function Home() {
   const [advocates, setAdvocates] = useState<Advocate[]>([]);
   const [filteredAdvocates, setFilteredAdvocates] = useState<Advocate[]>([]);
-  const [searchedTerm, setSearchedTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     console.log("fetching advocates...");
@@ -18,77 +21,74 @@ export default function Home() {
     });
   }, []);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = e.target.value;
-    setSearchedTerm(searchTerm);
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
 
     console.log("filtering advocates...");
-    const filteredAdvocates = advocates.filter((advocate) => {
+    const filtered = advocates.filter((advocate) => {
       return (
-        advocate.firstName.includes(searchTerm) ||
-        advocate.lastName.includes(searchTerm) ||
-        advocate.city.includes(searchTerm) ||
-        advocate.degree.includes(searchTerm) ||
+        advocate.firstName
+          .toLowerCase()
+          .includes(newSearchTerm.toLowerCase()) ||
+        advocate.lastName.toLowerCase().includes(newSearchTerm.toLowerCase()) ||
+        advocate.city.toLowerCase().includes(newSearchTerm.toLowerCase()) ||
+        advocate.degree.toLowerCase().includes(newSearchTerm.toLowerCase()) ||
         advocate.specialties.some((specialty) =>
-          specialty.includes(searchTerm)
+          specialty.toLowerCase().includes(newSearchTerm.toLowerCase())
         ) ||
-        advocate.yearsOfExperience.toString().includes(searchTerm)
+        advocate.yearsOfExperience.toString().includes(newSearchTerm)
       );
     });
 
-    setFilteredAdvocates(filteredAdvocates);
+    setFilteredAdvocates(filtered);
   };
 
-  const onClick = () => {
-    console.log(advocates);
+  const handleReset = () => {
+    setSearchTerm("");
     setFilteredAdvocates(advocates);
   };
 
   return (
-    <main style={{ margin: "24px" }}>
-      <h1>Solace Advocates</h1>
-      <br />
-      <br />
-      <div>
-        <p>Search</p>
-        <p>Searching for: {searchedTerm}</p>
-        <input style={{ border: "1px solid black" }} onChange={onChange} />
-        <button onClick={onClick}>Reset Search</button>
-      </div>
-      <br />
-      <br />
-      <table>
-        <thead>
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>City</th>
-            <th>Degree</th>
-            <th>Specialties</th>
-            <th>Years of Experience</th>
-            <th>Phone Number</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredAdvocates.map((advocate) => {
-            return (
-              <tr key={advocate.id}>
-                <td>{advocate.firstName}</td>
-                <td>{advocate.lastName}</td>
-                <td>{advocate.city}</td>
-                <td>{advocate.degree}</td>
-                <td>
-                  {advocate.specialties.map((s, index) => (
-                    <div key={index}>{s}</div>
-                  ))}
-                </td>
-                <td>{advocate.yearsOfExperience}</td>
-                <td>{advocate.phoneNumber}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </main>
+    <>
+      {/* Advocates Section */}
+      <section id="advocates" className="container mx-auto px-4 py-16">
+        {/* Search Section */}
+        <div className="max-w-2xl mx-auto mb-12">
+          <AdvocateSearch
+            searchTerm={searchTerm}
+            onChange={handleSearchChange}
+            onReset={handleReset}
+          />
+        </div>
+
+        {/* Results Section */}
+        <div className="max-w-6xl mx-auto">
+          <h3 className="text-xl font-medium text-gray-700 mb-6">
+            {filteredAdvocates.length} Advocates Available
+          </h3>
+
+          {filteredAdvocates.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredAdvocates.map((advocate) => (
+                <AdvocateCard key={advocate.id} advocate={advocate} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-solace-light rounded-lg">
+              <p className="text-gray-700 text-lg">
+                No advocates found matching your search criteria.
+              </p>
+              <button
+                onClick={handleReset}
+                className="mt-4 text-solace-green hover:underline font-medium"
+              >
+                View all advocates
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+    </>
   );
 }
