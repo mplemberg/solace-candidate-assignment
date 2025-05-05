@@ -1,5 +1,5 @@
 import { Advocate } from "../../../types/advocate";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import { formatPhoneNumber } from "../../../shared/utils/phone-number-helpers";
 
