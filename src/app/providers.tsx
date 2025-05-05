@@ -8,7 +8,6 @@ interface ProvidersProps {
 }
 
 export function Providers({ children }: ProvidersProps) {
-  // Create a QueryClient instance that will persist between renders
   const [queryClient] = useState(
     () =>
       new QueryClient({

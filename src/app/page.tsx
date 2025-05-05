@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { Advocate } from "../types/advocate";
-import AdvocateCard from "../features/advocates/components/AdvocateCard";
-import AdvocateSearch from "../features/advocates/components/AdvocateSearch";
-import { useAdvocates } from "../features/advocates/hooks/useAdvocates";
+import AdvocateCard from "../features/advocates/components/advocate-card";
+import AdvocateSearch from "../features/advocates/components/advocate-search";
+import { useAdvocates } from "../features/advocates/hooks/use-advocates";
 import { useDebounce } from "../shared/hooks";
 
 export default function Home() {
