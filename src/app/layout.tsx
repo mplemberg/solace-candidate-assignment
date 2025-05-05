@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Header from "./header";
-import Footer from "./footer";
-import { Providers } from "./providers";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Solace Health | Find a Healthcare Advocate",
-  description:
-    "Connect with healthcare advocates who can help you navigate the healthcare system.",
+  title: "Solace Candidate Assignment",
+  description: "Show us what you got",
 };
 
 export default function RootLayout({
@@ -20,15 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} min-h-screen flex flex-col bg-white`}
-      >
-        <Providers>
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </Providers>
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
