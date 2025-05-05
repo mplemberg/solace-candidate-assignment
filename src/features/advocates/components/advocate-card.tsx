@@ -104,7 +104,7 @@ export default function AdvocateCard({ advocate }: AdvocateCardProps) {
               <div className="mt-4">
                 <a
                   href={`tel:${advocate.phoneNumber}`}
-                  className="block w-full bg-solace-green text-white text-center py-2 rounded-md hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2"
+                  className="w-full bg-solace-gold text-white text-center py-2 rounded-md hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

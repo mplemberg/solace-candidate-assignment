@@ -42,13 +42,6 @@ export default function AdvocateSearch({
             </div>
           )}
         </div>
-
-        <button
-          onClick={onReset}
-          className="bg-solace-gold text-gray-800 py-3 px-6 rounded-lg hover:bg-opacity-90 transition-colors font-medium"
-        >
-          Find an Advocate
-        </button>
       </div>
 
       {searchTerm && (
